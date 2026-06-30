@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Routes, Route, useNavigate } from 'react-router-dom'
 import { useApp } from './context/AppContext.jsx'
 import Landing from './components/Landing.jsx'
@@ -7,6 +7,7 @@ import OnboardingHub from './components/Onboarding/OnboardingHub.jsx'
 import Loading from './components/Loading.jsx'
 import Dashboard from './components/Dashboard/Dashboard.jsx'
 import CredentialsModal from './components/CredentialsModal.jsx'
+import SplashScreen from './components/SplashScreen.jsx'
 
 function AppRouter() {
   const { appState, results, authLoading } = useApp()
@@ -66,5 +67,11 @@ function AppRouter() {
 }
 
 export default function App() {
-  return <AppRouter />
+  const [booting, setBooting] = useState(true)
+  return (
+    <>
+      <AppRouter />
+      {booting && <SplashScreen onFinish={() => setBooting(false)} />}
+    </>
+  )
 }

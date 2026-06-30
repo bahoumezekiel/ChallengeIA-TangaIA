@@ -29,7 +29,7 @@ const VIEWS = [
 
 function ViewTabs({ view, setView }) {
   return (
-    <div className="flex gap-1.5 mb-6 overflow-x-auto custom-scroll -mx-1 px-1 pb-1">
+    <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-1.5 mb-6">
       {VIEWS.map((v) => {
         const Icon = v.Icon
         const active = view === v.id
@@ -37,13 +37,13 @@ function ViewTabs({ view, setView }) {
           <button
             key={v.id}
             onClick={() => setView(v.id)}
-            className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-semibold whitespace-nowrap transition-all ${
+            className={`flex items-center justify-center sm:justify-start gap-1.5 px-3.5 py-2 rounded-xl text-sm font-semibold transition-all ${
               active
                 ? 'bg-tanga-ochre text-white shadow-sm'
                 : 'bg-white text-tanga-charcoal-light border border-tanga-sand/60 hover:border-tanga-ochre/40 hover:text-tanga-charcoal'
             }`}
           >
-            <Icon className="w-4 h-4" />
+            <Icon className="w-4 h-4 flex-shrink-0" />
             {v.label}
           </button>
         )
@@ -161,6 +161,9 @@ export default function Dashboard() {
   const { results, profilPme, sessionId, resetSession, lancerAnalyse, user, deconnexion, appState } = useApp()
   const [activeId, setActiveId] = useState('synthese')
   const [view, setView] = useState('equipe')
+  const [displayedView, setDisplayedView] = useState('equipe')
+  const [mountedViews, setMountedViews] = useState({ equipe: true })
+  const [contentVisible, setContentVisible] = useState(true)
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [toolsManagerOpen, setToolsManagerOpen] = useState(false)
 
@@ -170,6 +173,17 @@ export default function Dashboard() {
   const [editingAgent, setEditingAgent] = useState(null)   // null = new agent
   const [saving, setSaving] = useState(false)
   const [deleting, setDeleting] = useState(false)
+
+  // Transition fluide entre vues : les panneaux restent montés (pas de rechargement
+  // ni de clignotement à chaque clic), avec un fondu croisé au changement d'onglet.
+  useEffect(() => {
+    setMountedViews((m) => (m[view] ? m : { ...m, [view]: true }))
+    if (view !== displayedView) {
+      setContentVisible(false)
+      const t = setTimeout(() => { setDisplayedView(view); setContentVisible(true) }, 160)
+      return () => clearTimeout(t)
+    }
+  }, [view, displayedView])
   // Signale qu'au moins un agent a été modifié depuis la dernière exécution
   const [agentsModified, setAgentsModified] = useState(false)
 
@@ -306,13 +320,13 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-tanga-cream flex flex-col">
+    <div className="h-screen overflow-hidden bg-tanga-cream flex flex-col">
       <div className="kente-stripe" />
 
       {/* Mobile top bar */}
-      <header className="lg:hidden sticky top-0 z-30 bg-white/95 backdrop-blur-sm border-b border-tanga-sand/40">
+      <header className="lg:hidden flex-shrink-0 z-30 bg-white/95 backdrop-blur-sm border-b border-tanga-sand/40">
         <div className="px-4 h-14 flex items-center justify-between">
-          <button onClick={() => setSidebarOpen(true)} className="btn-ghost p-2">
+          <button onClick={() => setSidebarOpen((o) => !o)} className="btn-ghost p-2">
             <MenuIcon />
           </button>
           <span className="font-bold text-lg text-tanga-charcoal">
@@ -330,7 +344,7 @@ export default function Dashboard() {
         </div>
       </header>
 
-      <div className="flex flex-1 h-0 min-h-screen">
+      <div className="flex flex-1 min-h-0">
         {/* Mobile sidebar overlay */}
         {sidebarOpen && (
           <div
@@ -357,6 +371,8 @@ export default function Dashboard() {
             agents={agents}
             resultats={resultats}
             activeId={activeId}
+            view={view}
+            setView={setView}
             onSelect={scrollToSection}
             onReset={resetSession}
             onOpenTools={() => { setSidebarOpen(false); setToolsManagerOpen(true) }}
@@ -370,7 +386,7 @@ export default function Dashboard() {
         </div>
 
         {/* Main content */}
-        <main ref={mainRef} className="flex-1 overflow-y-auto custom-scroll">
+        <main ref={mainRef} className="flex-1 min-h-0 overflow-y-auto custom-scroll">
           {/* Desktop header */}
           <div className="hidden lg:flex sticky top-0 z-20 bg-tanga-cream/95 backdrop-blur-sm border-b border-tanga-sand/30 px-6 py-3 items-center justify-between">
             <div>
@@ -391,9 +407,12 @@ export default function Dashboard() {
           </div>
 
           <div className="max-w-3xl mx-auto px-4 sm:px-6 py-6">
-            <ViewTabs view={view} setView={setView} />
+            <div className="lg:hidden">
+              <ViewTabs view={view} setView={setView} />
+            </div>
 
-            {view === 'equipe' && (<>
+            <div className={`transition-opacity duration-200 ${contentVisible ? 'opacity-100' : 'opacity-0'}`}>
+            <div style={{ display: displayedView === 'equipe' ? 'block' : 'none' }}>
             <SyntheseSection results={results} />
 
             {/* Agents section header */}
@@ -472,12 +491,29 @@ export default function Dashboard() {
                 <p className="font-medium">Aucun agent créé pour cette session.</p>
               </div>
             )}
-            </>)}
+            </div>
 
-            {view === 'reputation'   && <ReputationPanel sessionId={sessionId || results?.session_id} />}
-            {view === 'ventes'       && <VentesPanel sessionId={sessionId || results?.session_id} />}
-            {view === 'publications' && <PublicationsPanel sessionId={sessionId || results?.session_id} />}
-            {view === 'historique'   && <HistoriquePanel sessionId={sessionId || results?.session_id} />}
+            {mountedViews.reputation && (
+              <div style={{ display: displayedView === 'reputation' ? 'block' : 'none' }}>
+                <ReputationPanel sessionId={sessionId || results?.session_id} />
+              </div>
+            )}
+            {mountedViews.ventes && (
+              <div style={{ display: displayedView === 'ventes' ? 'block' : 'none' }}>
+                <VentesPanel sessionId={sessionId || results?.session_id} />
+              </div>
+            )}
+            {mountedViews.publications && (
+              <div style={{ display: displayedView === 'publications' ? 'block' : 'none' }}>
+                <PublicationsPanel sessionId={sessionId || results?.session_id} />
+              </div>
+            )}
+            {mountedViews.historique && (
+              <div style={{ display: displayedView === 'historique' ? 'block' : 'none' }}>
+                <HistoriquePanel sessionId={sessionId || results?.session_id} />
+              </div>
+            )}
+            </div>
 
             <div className="h-12" />
           </div>
