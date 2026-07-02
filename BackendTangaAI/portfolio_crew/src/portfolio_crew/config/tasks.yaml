@@ -1,0 +1,164 @@
+context_task:
+  description: >
+    Analyse le contexte métier de {name}, secteur déclaré : "{sector}".
+    Titre/activité : {title}
+    Bio : {bio}
+    Compétences/services déclarés :
+    {skills_text}
+    Réalisations/projets déclarés :
+    {projects_text}
+
+    À partir de ces informations :
+    1. Classe ce profil dans une catégorie large (artisan/commerçant de proximité,
+       consultant/profession de service, freelance tech/digital, ou autre si pertinent)
+    2. Sélectionne, parmi cette liste de sections possibles, celles pertinentes pour ce profil
+       et propose leur ordre d'apparition : Hero/Présentation, À propos, Services, Compétences,
+       Projets/Réalisations, Galerie photo, Expérience, Formation, Méthodologie, Études de cas,
+       Témoignages clients, Zone d'intervention, Horaires, Contact.
+    3. Recommande un ton et un vocabulaire adaptés (rassurant/proximité pour un artisan vs
+       expertise/résultats pour un consultant vs innovation/technique pour un freelance tech)
+    4. Précise comment relabelliser à l'affichage les champs génériques fournis : le champ
+       "compétences/services" doit-il s'afficher comme "Compétences", "Nos services" ou
+       "Ce que je propose" ? Le champ "réalisations/projets" comme "Projets", "Réalisations"
+       ou "Portfolio de chantiers" ?
+    5. Ne jamais inventer de données factuelles (pas de faux chiffres, pas de fausses
+       certifications) : seulement des recommandations de structure/ton/libellés.
+
+  expected_output: >
+    Un brief structuré contenant : la catégorie de profil identifiée, la liste ordonnée des
+    sections recommandées avec une justification courte par section, le ton/vocabulaire à
+    adopter, et les libellés d'affichage recommandés pour les champs "compétences/services" et
+    "réalisations/projets".
+  agent: context_analyst
+
+
+design_task:
+  description: >
+    Analyse les besoins du portfolio et définis l'architecture complète, en t'appuyant sur le
+    brief sectoriel produit par l'analyste de contexte.
+
+    DONNÉES DU PROPRIÉTAIRE :
+    - Nom         : {name}
+    - Titre       : {title}
+    - Secteur     : {sector}
+    - Bio         : {bio}
+    - Thème       : {theme}
+    - Style       : {portfolio_style}
+    - Couleur 1   : {primary_color}
+    - Couleur 2   : {secondary_color}
+    - Audience    : {target_audience}
+
+    Définis :
+    1. La structure des sections, EN SUIVANT les recommandations du brief de l'analyste de
+       contexte (n'inclus pas de section non pertinente pour ce secteur)
+    2. La charte graphique basée sur {primary_color} et {secondary_color}
+    3. Les composants interactifs nécessaires
+    4. Les standards de qualité attendus par {target_audience}
+
+  expected_output: >
+    Un document de spécifications complet contenant :
+    - Structure des sections du portfolio, alignée sur le brief sectoriel
+    - Charte graphique et variables CSS
+    - Liste des composants interactifs
+    - Standards de qualité
+  agent: engineering_lead
+  context:
+    - context_task
+
+
+frontend_task:
+  description: >
+    Génère un fichier HTML unique, complet et auto-suffisant pour le portfolio de {name}, en
+    respectant les spécifications d'architecture et le brief sectoriel fournis en contexte.
+
+    DONNÉES OBLIGATOIRES À UTILISER (ne pas inventer, utiliser exactement) :
+    - Nom complet / entreprise       : {name}
+    - Titre / activité               : {title}
+    - Secteur                        : {sector}
+    - Bio                            : {bio}
+    - Compétences / services proposés :
+    {skills_text}
+    - Réalisations / projets :
+    {projects_text}
+    - Expérience :
+    {experience_text}
+    - Formation :
+    {education_text}
+    - Témoignages clients :
+    {testimonials_text}
+    - Email de contact               : {contact_email}
+    - Téléphone                      : {contact_phone}
+    - Adresse / zone d'intervention  : {address}
+    - Horaires                       : {business_hours}
+    - GitHub                         : {contact_github}
+    - LinkedIn                       : {contact_linkedin}
+    - WhatsApp                       : {contact_whatsapp}
+    - Facebook                       : {contact_facebook}
+    - Instagram                      : {contact_instagram}
+    - Thème                          : {theme}
+    - Style                          : {portfolio_style}
+    - Couleur 1                      : {primary_color}
+    - Couleur 2                      : {secondary_color}
+    - Année                          : {current_year}
+
+    N'affiche que les champs de contact réellement renseignés : ignore et n'affiche pas les
+    champs vides (téléphone, WhatsApp, Facebook, Instagram, horaires, adresse, GitHub, LinkedIn
+    s'ils sont vides). N'invente jamais de valeur pour un champ vide.
+
+    Génère également la logique JavaScript nécessaire directement intégrée dans le document
+    (objet de données regroupant les informations ci-dessus, gestion du formulaire de contact,
+    interactions des sections), en vanilla JavaScript pur, sans dépendances.
+
+    RÈGLES STRICTES DE SORTIE :
+    - Retourne UNIQUEMENT le code source HTML complet, rien d'autre.
+    - Ne retourne JAMAIS de JSON, jamais d'explication avant ou après le code.
+    - N'utilise PAS de blocs de code markdown (pas de ```html``` ni ```), retourne le HTML brut
+      tel qu'il doit être écrit dans le fichier.
+    - Le document doit commencer exactement par <!DOCTYPE html> (premier caractère de la
+      réponse) et se terminer par </html> (dernier contenu significatif).
+    - CSS intégré dans <style> dans le <head>, JS intégré dans <script> avant </body>.
+
+  expected_output: >
+    Le code source HTML complet et auto-suffisant (commençant par <!DOCTYPE html>, se terminant
+    par </html>), avec le nom réel {name}, le titre {title} et les couleurs {primary_color} /
+    {secondary_color}, sans aucun texte, JSON ou balise markdown autour.
+  agent: frontend_engineer
+  context:
+    - context_task
+    - design_task
+  output_file: outputs/{slug}/index.html
+
+
+qa_task:
+  description: >
+    Lis le fichier HTML généré à l'emplacement exact : outputs/{slug}/index.html
+    en utilisant ton outil de lecture de fichier (fournis ce chemin exact comme paramètre
+    file_path). Tu dois baser CHAQUE constat sur le contenu réel de ce fichier, jamais sur une
+    supposition.
+
+    Vérifie précisément et UNIQUEMENT les éléments suivants, en citant le texte/extrait trouvé :
+    1. Le nom "{name}" apparaît littéralement dans le HTML
+    2. Le titre "{title}" apparaît littéralement dans le HTML
+    3. La couleur {primary_color} (en hexadécimal) apparaît dans le <style> ou les attributs style
+    4. La couleur {secondary_color} apparaît également
+    5. Un lien mailto: contenant "{contact_email}" est présent
+    6. La balise <meta name="viewport" ...> est présente (responsive)
+    7. La structure HTML de base est valide : présence de <!DOCTYPE html>, <html>, <head>, <body>
+    8. Les sections recommandées par l'analyse de contexte sont effectivement présentes dans le
+       HTML (recherche des titres de section correspondants)
+
+    INTERDICTION FORMELLE : n'invente aucun score de performance (Lighthouse, etc.), aucun test
+    de navigateur, aucun bug que tu n'as pas constaté en lisant le fichier. Si tu ne peux pas
+    vérifier un point avec les outils dont tu disposes, indique-le explicitement comme "Non
+    vérifiable avec les outils disponibles" plutôt que d'inventer un résultat.
+
+  expected_output: >
+    Un rapport listant, pour chacun des 8 points ci-dessus : Conforme / Non conforme / Non
+    vérifiable, avec l'extrait exact du HTML qui justifie le constat (ou son absence). Le rapport
+    ne doit contenir AUCUNE métrique inventée (pas de score Lighthouse, pas de test cross-browser,
+    pas de mention de section absente du référentiel de 8 points ci-dessus).
+  agent: test_engineer
+  context:
+    - context_task
+    - frontend_task
+  output_file: outputs/{slug}/quality_assurance_report.md

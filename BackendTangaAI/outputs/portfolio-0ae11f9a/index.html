@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MOAGA TEL - Vente d'ordinateurs. Votre satisfaction notre priorité.">
+    <title>MOAGA TEL - Votre satisfaction notre priorité</title>
+    <style>
+        :root {
+            --primary-color: #6549ee;
+            --secondary-color: #c6cec5;
+            --font-primary: 'Arial', sans-serif;
+            --font-secondary: 'Georgia', serif;
+            --text-color-primary: #333;
+            --text-color-secondary: #666;
+            --background-color: #fff;
+        }
+        body {
+            font-family: var(--font-primary);
+            background-color: var(--background-color);
+            margin: 0;
+            color: var(--text-color-primary);
+        }
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: var(--secondary-color);
+            padding: 10px 0;
+        }
+        nav a {
+            margin: 0 15px;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: bold;
+        }
+        section {
+            padding: 40px 20px;
+            max-width: 900px;
+            margin: auto;
+        }
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+        }
+        .contact-info {
+            list-style: none;
+            padding: 0;
+        }
+        .contact-info li {
+            margin: 5px 0;
+        }
+        .cta-button {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        .cta-button:hover {
+            background-color: #5631d4;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        form input, form textarea {
+            margin-bottom: 10px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-family: var(--font-primary);
+        }
+        form input[type="submit"] {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        form input[type="submit"]:hover {
+            background-color: #5631d4;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>MOAGA TEL</h1>
+        <p>Votre satisfaction notre priorité</p>
+    </header>
+    <nav>
+        <a href="#about">À propos</a>
+        <a href="#services">Nos services</a>
+        <a href="#skills">Compétences</a>
+        <a href="#gallery">Galerie photo</a>
+        <a href="#contact">Contact</a>
+    </nav>
+    <section id="about">
+        <h2>À propos de MOAGA TEL</h2>
+        <p>Magasin de vente d'ordinateur, basé à Ouagadougou, Dassasgho, nous nous engageons à offrir à nos clients les meilleurs produits et services pour répondre à leurs besoins en matière d'informatique.</p>
+    </section>
+    <section id="services">
+        <h2>Nos services</h2>
+        <ul>
+            <li>Marketing</li>
+            <li>Vente</li>
+            <li>Administration et finance</li>
+            <li>Support</li>
+            <li>Autre</li>
+        </ul>
+    </section>
+    <section id="skills">
+        <h2>Compétences</h2>
+        <p>Nos compétences incluent le marketing, la vente, l'administration financière et le support client, assurant un service professionnel et de haute qualité.</p>
+    </section>
+    <section id="gallery">
+        <h2>Galerie photo</h2>
+        <p>Découvrez nos produits en magasin, nos offres et installations d'ordinateurs.</p>
+        <!-- Image gallery placeholder -->
+    </section>
+    <section id="contact">
+        <h2>Contactez-nous</h2>
+        <ul class="contact-info">
+            <li>Email: <a href="mailto:bahoumezekiel@gmail.com">bahoumezekiel@gmail.com</a></li>
+            <li>WhatsApp: <a href="https://wa.me/22654975802">+226 54975802</a></li>
+        </ul>
+        <form id="contactForm">
+            <input type="text" id="name" name="name" placeholder="Votre nom" required>
+            <input type="email" id="email" name="email" placeholder="Votre email" required>
+            <textarea id="message" name="message" rows="4" placeholder="Votre message" required></textarea>
+            <input type="submit" value="Envoyer">
+        </form>
+    </section>
+    <footer>
+        <p>&copy; 2026 MOAGA TEL - Tous droits réservés</p>
+    </footer>
+    <script>
+        const contactDetails = {
+            email: "bahoumezekiel@gmail.com",
+            whatsapp: "+226 54975802"
+        };
+
+        document.getElementById('contactForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+            console.log('Nom:', name, 'Email:', email, 'Message:', message);
+            alert('Merci de nous avoir contactés, ' + name + '! Nous vous répondrons au plus vite.');
+        });
+    </script>
+</body>
+</html>

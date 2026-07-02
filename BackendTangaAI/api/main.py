@@ -72,6 +72,10 @@ from memory.agents import (
 )
 from memory import notifications as notif
 
+from rag.routes import router as creation_router
+from portfolio.routes import router as portfolio_router
+
+
 logger = logging.getLogger("api")
 
 _executor = ThreadPoolExecutor(max_workers=4)
@@ -227,6 +231,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(creation_router)
+app.include_router(portfolio_router)
 
 # ---------------------------------------------------------------------------
 # Helpers

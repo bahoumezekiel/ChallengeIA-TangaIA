@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Afro-tech - La technologie au service de votre quotidien.</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #111827;
+            background-color: #f9f9f9;
+        }
+        header {
+            background-color: #2563EB;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        section {
+            padding: 20px;
+            margin: 10px;
+        }
+        .cta-button {
+            background-color: #2563EB;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        footer {
+            background-color: #111827;
+            color: white;
+            text-align: center;
+            padding: 10px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        .contact-info div {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Afro-tech</h1>
+        <p>La technologie au service de votre quotidien.</p>
+    </header>
+    <section id="presentation">
+        <h2>Bienvenue chez Afro-tech</h2>
+        <p>Votre référence en vente d'appareils électroniques de qualité. Nous mettons à votre disposition une large gamme de produits modernes et performants, soigneusement sélectionnés pour répondre aux besoins des particuliers comme des professionnels.</p>
+    </section>
+    <section id="about">
+        <h2>À propos</h2>
+        <p>Notre mission est de rendre la technologie accessible à tous en proposant des équipements fiables, innovants et à des prix compétitifs. Que vous recherchiez un smartphone, un ordinateur, une tablette, des accessoires ou d'autres équipements électroniques, nous nous engageons à vous offrir des produits authentiques accompagnés d'un service client de qualité.</p>
+    </section>
+    <section id="services">
+        <h2>Nos Services</h2>
+        <ul>
+            <li>Marketing</li>
+            <li>Vente</li>
+            <li>Administration Financière</li>
+            <li>Support</li>
+        </ul>
+    </section>
+    <section id="contact">
+        <h2>Contact</h2>
+        <div class="contact-info">
+            <div>Email: <a href="mailto:test@gmail.com">test@gmail.com</a></div>
+            <div>Téléphone: +22657876209</div>
+            <div>WhatsApp: +22657876209</div>
+            <div>Adresse: Ouagadougou, Dassasgho</div>
+        </div>
+        <form id="contact-form">
+            <div class="form-group">
+                <label for="name">Nom :</label>
+                <input type="text" id="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email :</label>
+                <input type="email" id="email" required>
+            </div>
+            <div class="form-group">
+                <label for="message">Message :</label>
+                <textarea id="message" rows="5" required></textarea>
+            </div>
+            <button type="submit" class="cta-button">Envoyer</button>
+        </form>
+    </section>
+    <footer>
+        <p>&copy; 2026 Afro-tech. Tous droits réservés.</p>
+    </footer>
+    <script>
+        const companyData = {
+            name: "Afro-tech",
+            slogan: "La technologie au service de votre quotidien.",
+            contactEmail: "test@gmail.com",
+            phone: "+22657876209",
+            whatsapp: "+22657876209",
+            address: "Ouagadougou, Dassasgho",
+            services: ["Marketing", "Vente", "Administration Financière", "Support"]
+        };
+
+        document.getElementById('contact-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const message = document.getElementById('message').value.trim();
+
+            if(name && email && message) {
+                alert(`Merci ${name}, votre message a été envoyé !`);
+                document.getElementById('contact-form').reset();
+            } else {
+                alert("Veuillez remplir tous les champs.");
+            }
+        });
+    </script>
+</body>
+</html>

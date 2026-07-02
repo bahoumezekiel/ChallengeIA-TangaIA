@@ -105,8 +105,8 @@ export default function Landing() {
             <button onClick={() => setAppState('auth')} className="btn-ghost text-sm px-4 py-2.5">
               Connexion
             </button>
-            <button onClick={() => setAppState('onboarding')} className="btn-primary text-sm px-5 py-2.5">
-              Commencer gratuitement
+            <button onClick={() => setAppState('creation')} className="btn-primary text-sm px-5 py-2.5">
+              Créer une entreprise
             </button>
           </div>
         </div>
@@ -134,23 +134,23 @@ export default function Landing() {
           />
         </div>
 
-        {/* Texte — centré sur TOUTE la largeur de la section, comme sur la capture */}
+        {/* Texte — décalé à droite via padding-left pour éviter le visage de la femme */}
         <div className="relative z-10 flex items-center justify-center min-h-[92vh] lg:min-h-screen">
-          <div className="w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-16 py-16 text-center">
+          <div className="w-full max-w-7xl mx-auto pl-[30%] lg:pl-[36%] pr-6 sm:pr-10 lg:pr-16 py-16 text-center">
 
             {/* Badge */}
             <Reveal delay={50}>
-              <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 backdrop-blur rounded-full px-5 py-2 mb-8">
-                <span className="w-2.5 h-2.5 rounded-full bg-tanga-ochre animate-pulse"></span>
-                <span className="uppercase tracking-wider text-sm font-semibold text-white">
+              <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 backdrop-blur rounded-full px-4 py-1.5 mb-6">
+                <span className="w-2 h-2 rounded-full bg-tanga-ochre animate-pulse"></span>
+                <span className="uppercase tracking-wider text-xs font-semibold text-white">
                   IA POUR LES PME AFRICAINES
                 </span>
               </div>
             </Reveal>
 
-            {/* Titre */}
+            {/* Titre — légèrement réduit */}
             <Reveal delay={120}>
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl xl:text-[92px] font-extrabold leading-[0.95] tracking-tight text-white max-w-[1200px] mx-auto mb-8">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold leading-[0.95] tracking-tight text-white mx-auto mb-6">
                 Votre équipe d'agents{" "}
                 <span className="text-tanga-ochre">IA</span>,
                 <br />
@@ -160,7 +160,7 @@ export default function Landing() {
 
             {/* Description */}
             <Reveal delay={220}>
-              <p className="text-lg lg:text-2xl text-white/85 leading-relaxed max-w-4xl mx-auto mb-12">
+              <p className="text-base lg:text-xl text-white/85 leading-relaxed mx-auto mb-10">
                 Décrivez votre entreprise : TangaAI compose une équipe d'agents
                 spécialisés — marketing, ventes, finance, support —
                 <br />
@@ -168,20 +168,20 @@ export default function Landing() {
               </p>
             </Reveal>
 
-            {/* Boutons */}
+            {/* Boutons — taille réduite */}
             <Reveal delay={320}>
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <button
                   onClick={() => setAppState("onboarding")}
-                  className="btn-primary w-[360px] h-[82px] text-2xl rounded-2xl shadow-xl shadow-tanga-ochre/30"
+                  className="btn-primary w-[240px] h-[56px] text-base rounded-xl shadow-lg shadow-tanga-ochre/30"
                 >
                   <span>Commencer gratuitement</span>
-                  <ArrowRight className="w-6 h-6" />
+                  <ArrowRight className="w-4 h-4" />
                 </button>
 
                 <a
                   href="#comment-ca-marche"
-                  className="inline-flex items-center justify-center w-[300px] h-[82px] rounded-2xl border border-white/30 text-white text-2xl font-semibold hover:bg-white/10 transition"
+                  className="inline-flex items-center justify-center w-[200px] h-[56px] rounded-xl border border-white/30 text-white text-base font-semibold hover:bg-white/10 transition"
                 >
                   Comment ça marche ?
                 </a>

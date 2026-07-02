@@ -3,7 +3,7 @@ import {
   DOMAIN_META, DomainGlyph, STATUS_META,
   RefreshCw, Link as LinkIcon, Home as HomeIcon,
   ClipboardList, Clock, ArrowRight, LogOut,
-  Users, MessageCircle, BarChart, Megaphone, History,
+  Users, MessageCircle, BarChart, Megaphone, History, Globe,
 } from '../icons.jsx'
 
 const VIEWS = [
@@ -12,6 +12,7 @@ const VIEWS = [
   { id: 'ventes',       label: 'Ventes',       Icon: BarChart },
   { id: 'publications', label: 'Publications', Icon: Megaphone },
   { id: 'historique',   label: 'Historique',   Icon: History },
+  { id: 'portfolio',    label: 'Site vitrine', Icon: Globe },
 ]
 
 export default function Sidebar({ agents, resultats, activeId, view, setView, onSelect, onReset, onOpenTools, sessionInfo, user, onLogout }) {

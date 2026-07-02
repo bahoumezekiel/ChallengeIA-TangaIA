@@ -8,9 +8,10 @@ import Loading from './components/Loading.jsx'
 import Dashboard from './components/Dashboard/Dashboard.jsx'
 import CredentialsModal from './components/CredentialsModal.jsx'
 import SplashScreen from './components/SplashScreen.jsx'
+import CreationEntreprise from './components/CreationEntreprise.jsx'
 
 function AppRouter() {
-  const { appState, results, authLoading } = useApp()
+  const { appState, results, authLoading, setAppState } = useApp()
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -28,6 +29,7 @@ function AppRouter() {
       loading:     '/loading',
       credentials: '/loading',
       dashboard:   '/dashboard',
+      creation:    '/creation',
     }
     const target = targets[appState]
     if (target && currentPath !== target) {
@@ -57,6 +59,15 @@ function AppRouter() {
         <Route path="/onboarding" element={<OnboardingHub />} />
         <Route path="/loading" element={<Loading />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route
+          path="/creation"
+          element={
+            <CreationEntreprise
+              onBack={() => setAppState('landing')}
+              onGoCopilote={() => setAppState('onboarding')}
+            />
+          }
+        />
         <Route path="*" element={<Landing />} />
       </Routes>
       {appState === 'credentials' && results?.notification && (

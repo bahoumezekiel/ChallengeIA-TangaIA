@@ -35,7 +35,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="F:\projet_TangaIA\TangaAI\env"
+VIRTUAL_ENV="C:\Users\HP\Desktop\projet_TangaIA\BackendTangaAI\env"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

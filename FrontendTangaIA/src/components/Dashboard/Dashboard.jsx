@@ -17,6 +17,7 @@ import ReputationPanel from './ReputationPanel.jsx'
 import VentesPanel from './VentesPanel.jsx'
 import PublicationsPanel from './PublicationsPanel.jsx'
 import HistoriquePanel from './HistoriquePanel.jsx'
+import PortfolioPanel from './PortfolioPanel.jsx'
 import NotificationBell from './NotificationBell.jsx'
 
 const VIEWS = [
@@ -25,6 +26,7 @@ const VIEWS = [
   { id: 'ventes',       label: 'Ventes',       Icon: BarChart },
   { id: 'publications', label: 'Publications', Icon: Megaphone },
   { id: 'historique',   label: 'Historique',   Icon: History },
+  { id: 'portfolio',    label: 'Site vitrine', Icon: Globe },
 ]
 
 function ViewTabs({ view, setView }) {
@@ -511,6 +513,11 @@ export default function Dashboard() {
             {mountedViews.historique && (
               <div style={{ display: displayedView === 'historique' ? 'block' : 'none' }}>
                 <HistoriquePanel sessionId={sessionId || results?.session_id} />
+              </div>
+            )}
+            {mountedViews.portfolio && (
+              <div style={{ display: displayedView === 'portfolio' ? 'block' : 'none' }}>
+                <PortfolioPanel />
               </div>
             )}
             </div>

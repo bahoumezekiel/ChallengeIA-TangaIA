@@ -230,3 +230,59 @@ export async function markAllNotificationsRead(sessionId = null) {
   })
   return handleResponse(res, 'Erreur')
 }
+
+/* ── Création d'entreprise (module RAG) ── */
+
+export async function listerTypesCreation() {
+  const res = await fetch(`${BASE_URL}/creation/types`, {
+    headers: { 'Content-Type': 'application/json' },
+  })
+  if (!res.ok) throw new Error('Impossible de charger les types.')
+  return res.json()
+}
+
+export async function poserQuestionCreation(question, typeEntreprise = null) {
+  const res = await fetch(`${BASE_URL}/creation/question`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ question, type_entreprise: typeEntreprise }),
+  })
+  if (!res.ok) throw new Error("Erreur lors de l'envoi de la question.")
+  return res.json()
+}
+
+export async function genererFeuilleDeRoute(profil) {
+  const res = await fetch(`${BASE_URL}/creation/feuille-de-route`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(profil),
+  })
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}))
+    throw new Error(err.detail || 'Erreur lors de la génération de la feuille de route.')
+  }
+  return res.json()
+}
+
+/* ── Portfolio / site vitrine (crew multi-agents) ── */
+
+export async function genererPortfolio(profil) {
+  const res = await fetch(`${BASE_URL}/portfolio/generer`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...authHeader() },
+    body: JSON.stringify(profil),
+  })
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}))
+    throw new Error(err.detail || 'Erreur lors du lancement de la génération.')
+  }
+  return res.json()
+}
+
+export async function statutPortfolio(jobId) {
+  const res = await fetch(`${BASE_URL}/portfolio/statut/${encodeURIComponent(jobId)}`, {
+    headers: { 'Content-Type': 'application/json', ...authHeader() },
+  })
+  if (!res.ok) throw new Error('Impossible de récupérer le statut.')
+  return res.json()
+}
